@@ -56,7 +56,7 @@ const SpeechToText = ({ onResult, targetField, isActive, onToggle }) => {
     <button
       type="button"
       onClick={toggleListening}
-      className={`p-3 rounded-lg text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 ${
+      className={`p-2 rounded-lg text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 text-sm ${
         isListening 
           ? 'bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600' 
           : isActive 

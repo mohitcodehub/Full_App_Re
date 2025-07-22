@@ -28,11 +28,11 @@ const LoadUnload = () => {
   };
 
   return (
-    <div className="flex flex-wrap gap-4 mb-6 justify-center bg-gradient-to-r from-slate-700/50 to-slate-800/50 p-4 rounded-xl border border-slate-600/30 shadow-lg">
+    <div className="flex flex-wrap gap-3 mb-4 justify-center bg-gradient-to-r from-slate-700/30 to-slate-800/30 p-3 rounded-xl border border-slate-600/20 shadow-lg">
       <div className="inline-flex flex-row items-center gap-2">
-        <h2 className="text-[1.2rem] text-white font-semibold drop-shadow-lg">Load Data</h2>
-        <label className="p-3 text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg cursor-pointer shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-110 hover:from-blue-500 hover:to-purple-500">
-          <FaCloudUploadAlt className="text-[1.2rem] text-white" />
+        <h2 className="text-[1rem] text-white font-semibold drop-shadow-lg">Load Data</h2>
+        <label className="p-2 text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg cursor-pointer shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-110 hover:from-blue-500 hover:to-purple-500">
+          <FaCloudUploadAlt className="text-[1rem] text-white" />
           <input
             aria-label="Load Data"
             type="file"
@@ -43,10 +43,10 @@ const LoadUnload = () => {
         </label>
       </div>
       <div className="inline-flex flex-row items-center gap-2">
-        <h2 className="text-[1.2rem] text-white font-semibold drop-shadow-lg">Save Data</h2>
+        <h2 className="text-[1rem] text-white font-semibold drop-shadow-lg">Save Data</h2>
         <button
           aria-label="Save Data"
-          className="p-3 text-white bg-gradient-to-r from-green-600 to-blue-600 rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-110 hover:from-green-500 hover:to-blue-500"
+          className="p-2 text-white bg-gradient-to-r from-green-600 to-blue-600 rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-110 hover:from-green-500 hover:to-blue-500"
           onClick={(event) =>
             handleDownload(
               resumeData,
@@ -55,7 +55,7 @@ const LoadUnload = () => {
             )
           }
         >
-          <FaCloudDownloadAlt className="text-[1.2rem] text-white" />
+          <FaCloudDownloadAlt className="text-[1rem] text-white" />
         </button>
       </div>
     </div>
