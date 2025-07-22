@@ -1,10 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import { 
-  FaRocket, 
-  FaUsers, 
-  FaDownload, 
-  FaStar,
   FaCheckCircle,
   FaArrowRight,
   FaPlay,
@@ -12,19 +8,18 @@ import {
   FaLinkedin,
   FaTwitter,
   FaMicrophone,
-  FaDragDrop,
   FaEdit,
   FaPrint,
   FaCloudUploadAlt,
   FaCloudDownloadAlt
 } from 'react-icons/fa';
+import { FiMove } from 'react-icons/fi';
 import { 
   MdSpeed, 
   MdSecurity, 
   MdCloudDownload,
   MdMobileFriendly,
   MdTextFormat,
-  MdColorLens,
   MdAutorenew
 } from 'react-icons/md';
 
@@ -103,7 +98,7 @@ const FeaturesPage = () => {
             </div>
 
             <div className="bg-gradient-to-br from-pink-900/50 to-purple-900/50 backdrop-blur-md rounded-2xl p-8 border border-white/10 hover:border-pink-400/50 transition-all group">
-              <FaDragDrop className="text-5xl text-pink-400 mb-6 group-hover:scale-110 transition-transform" />
+              <FiMove className="text-5xl text-pink-400 mb-6 group-hover:scale-110 transition-transform" />
               <h3 className="text-2xl font-semibold text-white mb-4">Drag & Drop Interface</h3>
               <p className="text-gray-300 mb-4">Easily reorder sections, work experience, and projects with our intuitive drag-and-drop functionality.</p>
               <ul className="text-sm text-gray-400 space-y-2">

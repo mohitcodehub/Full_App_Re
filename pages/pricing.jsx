@@ -68,7 +68,7 @@ const PricingPage = () => {
 
       {/* Pricing Card */}
       <section className="py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 backdrop-blur-md rounded-3xl border border-white/10 overflow-hidden relative">
             {/* Popular Badge */}
             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -78,7 +78,7 @@ const PricingPage = () => {
               </div>
             </div>
 
-            <div className="p-12 text-center">
+            <div className="p-8 md:p-12 text-center">
               <div className="mb-8">
                 <h2 className="text-4xl font-bold text-white mb-4">Free Forever</h2>
                 <div className="flex items-center justify-center mb-4">
@@ -89,7 +89,7 @@ const PricingPage = () => {
               </div>
 
               {/* Features List */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-10 max-w-4xl mx-auto">
                 <div className="text-left space-y-4">
                   <div className="flex items-center">
                     <FaCheckCircle className="text-green-400 mr-3 text-xl flex-shrink-0" />
