@@ -7,8 +7,10 @@ import { parseEducation } from "../../utils/speechParser";
 const Education = () => {
     const { resumeData, setResumeData} = useContext(ResumeContext);
     const [activeField, setActiveField] = React.useState(null);
+    const [speechOutput, setSpeechOutput] = React.useState('');
 
     const handleSpeechResult = (transcript, fieldName) => {
+      setSpeechOutput(transcript);
       const [field, index] = fieldName.split('-');
       const newEducation = [...resumeData.education];
       newEducation[parseInt(index)][field] = transcript;
@@ -17,6 +19,7 @@ const Education = () => {
     };
 
     const handleSectionSpeechResult = (transcript, sectionType) => {
+      setSpeechOutput(transcript);
       if (sectionType === 'Education') {
         const parsedData = parseEducation(transcript);
         
@@ -43,6 +46,9 @@ const Education = () => {
       setActiveField(isActive ? fieldName : null);
     };
 
+    const clearSpeechOutput = () => {
+      setSpeechOutput('');
+    };
     const handleEducation = (e, index) => {
       const newEducation = [...resumeData.education];
       newEducation[index][e.target.name] = e.target.value;
@@ -79,6 +85,26 @@ const Education = () => {
             onSectionResult={handleSectionSpeechResult}
           />
         </div>
+        
+        {/* Speech Output Box */}
+        {speechOutput && (
+          <div className="mb-4 p-3 bg-slate-700/50 border border-slate-600/30 rounded-lg">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-medium text-gray-300">Speech Recognition Output:</h3>
+              <button
+                type="button"
+                onClick={clearSpeechOutput}
+                className="text-xs text-gray-400 hover:text-gray-200 transition-colors"
+              >
+                Clear
+              </button>
+            </div>
+            <p className="text-sm text-gray-200 bg-slate-800/50 p-2 rounded border border-slate-600/20">
+              "{speechOutput}"
+            </p>
+          </div>
+        )}
+
         {resumeData.education.map((education, index) => (
           <div key={index} className="f-col">
             <input

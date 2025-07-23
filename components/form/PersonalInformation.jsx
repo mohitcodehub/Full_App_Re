@@ -8,13 +8,16 @@ const PersonalInformation = ({}) => {
     useContext(ResumeContext);
 
   const [activeField, setActiveField] = React.useState(null);
+  const [speechOutput, setSpeechOutput] = React.useState('');
 
   const handleSpeechResult = (transcript, fieldName) => {
+    setSpeechOutput(transcript);
     setResumeData({ ...resumeData, [fieldName]: transcript });
     setActiveField(null);
   };
 
   const handleSectionSpeechResult = (transcript, sectionType) => {
+    setSpeechOutput(transcript);
     if (sectionType === 'Personal Information') {
       const parsedData = parsePersonalInformation(transcript);
       
@@ -36,6 +39,9 @@ const PersonalInformation = ({}) => {
     setActiveField(isActive ? fieldName : null);
   };
 
+  const clearSpeechOutput = () => {
+    setSpeechOutput('');
+  };
   return (
     <div className="flex-col-gap-2">
       <div className="flex items-center justify-between mb-2">
@@ -49,6 +55,26 @@ const PersonalInformation = ({}) => {
           onSectionResult={handleSectionSpeechResult}
         />
       </div>
+      
+      {/* Speech Output Box */}
+      {speechOutput && (
+        <div className="mb-4 p-3 bg-slate-700/50 border border-slate-600/30 rounded-lg">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-sm font-medium text-gray-300">Speech Recognition Output:</h3>
+            <button
+              type="button"
+              onClick={clearSpeechOutput}
+              className="text-xs text-gray-400 hover:text-gray-200 transition-colors"
+            >
+              Clear
+            </button>
+          </div>
+          <p className="text-sm text-gray-200 bg-slate-800/50 p-2 rounded border border-slate-600/20">
+            "{speechOutput}"
+          </p>
+        </div>
+      )}
+
       <div className="grid-4">
         <div className="relative">
           <input
