@@ -2,6 +2,7 @@ import FormButton from "./FormButton";
 import React, { useContext } from "react";
 import { ResumeContext } from "../../pages/builder";
 import SpeechToText from "./SpeechToText";
+import { parseEducation } from "../../utils/speechParser";
 
 const Education = () => {
     const { resumeData, setResumeData} = useContext(ResumeContext);
@@ -13,6 +14,29 @@ const Education = () => {
       newEducation[parseInt(index)][field] = transcript;
       setResumeData({ ...resumeData, education: newEducation });
       setActiveField(null);
+    };
+
+    const handleSectionSpeechResult = (transcript, sectionType) => {
+      if (sectionType === 'Education') {
+        const parsedData = parseEducation(transcript);
+        
+        // Create new education entry or update the first one
+        const newEducation = [...resumeData.education];
+        
+        if (newEducation.length === 0) {
+          newEducation.push({ school: "", degree: "", startYear: "", endYear: "" });
+        }
+        
+        const targetIndex = 0; // Always update the first education entry for section-level input
+        
+        if (parsedData.school) newEducation[targetIndex].school = parsedData.school;
+        if (parsedData.degree) newEducation[targetIndex].degree = parsedData.degree;
+        if (parsedData.startYear) newEducation[targetIndex].startYear = parsedData.startYear;
+        if (parsedData.endYear) newEducation[targetIndex].endYear = parsedData.endYear;
+        
+        setResumeData({ ...resumeData, education: newEducation });
+        setActiveField(null);
+      }
     };
 
     const toggleSpeech = (fieldName, isActive) => {
@@ -51,6 +75,8 @@ const Education = () => {
             targetField={activeField}
             isActive={activeField !== null}
             onToggle={(isActive) => toggleSpeech(activeField, isActive)}
+            sectionType="Education"
+            onSectionResult={handleSectionSpeechResult}
           />
         </div>
         {resumeData.education.map((education, index) => (
