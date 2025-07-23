@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { ResumeContext } from "../../pages/builder";
 import SpeechToText from "./SpeechToText";
 import { parsePersonalInformation } from "../../utils/speechParser";
+import { parsePersonalInformation } from "../../utils/speechParser";
 
 const PersonalInformation = ({}) => {
   const { resumeData, setResumeData, handleProfilePicture, handleChange } =
@@ -42,10 +43,75 @@ const PersonalInformation = ({}) => {
   const clearSpeechOutput = () => {
     setSpeechOutput('');
   };
+  const [activeField, setActiveField] = React.useState(null);
+  const [speechOutput, setSpeechOutput] = React.useState('');
+
+  const handleSpeechResult = (transcript, fieldName) => {
+    setSpeechOutput(transcript);
+    setResumeData({ ...resumeData, [fieldName]: transcript });
+    setActiveField(null);
+  };
+
+  const handleSectionSpeechResult = (transcript, sectionType) => {
+    setSpeechOutput(transcript);
+    if (sectionType === 'Personal Information') {
+      const parsedData = parsePersonalInformation(transcript);
+      
+      // Update resume data with parsed information
+      const updatedData = { ...resumeData };
+      
+      if (parsedData.name) updatedData.name = parsedData.name;
+      if (parsedData.position) updatedData.position = parsedData.position;
+      if (parsedData.contactInformation) updatedData.contactInformation = parsedData.contactInformation;
+      if (parsedData.email) updatedData.email = parsedData.email;
+      if (parsedData.address) updatedData.address = parsedData.address;
+      
+      setResumeData(updatedData);
+      setActiveField(null);
+    }
+  };
+
+  const toggleSpeech = (fieldName, isActive) => {
+    setActiveField(isActive ? fieldName : null);
+  };
+
+  const clearSpeechOutput = () => {
+    setSpeechOutput('');
+  };
 
   return (
     <div className="flex-col-gap-2">
       <div className="flex items-center justify-between mb-2">
+        <h2 className="input-title">Personal Information</h2>
+        <SpeechToText 
+          onResult={handleSpeechResult}
+          targetField={activeField}
+          isActive={activeField !== null}
+          onToggle={(isActive) => toggleSpeech(activeField, isActive)}
+          sectionType="Personal Information"
+          onSectionResult={handleSectionSpeechResult}
+        />
+      </div>
+      
+      {/* Speech Output Box */}
+      {speechOutput && (
+        <div className="mb-4 p-3 bg-slate-700/50 border border-slate-600/30 rounded-lg">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-sm font-medium text-gray-300">Speech Recognition Output:</h3>
+            <button
+              type="button"
+              onClick={clearSpeechOutput}
+              className="text-xs text-gray-400 hover:text-gray-200 transition-colors"
+            >
+              Clear
+            </button>
+          </div>
+          <p className="text-sm text-gray-200 bg-slate-800/50 p-2 rounded border border-slate-600/20">
+            "{speechOutput}"
+          </p>
+        </div>
+      )}
+
         <h2 className="input-title">Personal Information</h2>
         <SpeechToText 
           onResult={handleSpeechResult}
@@ -119,6 +185,21 @@ const PersonalInformation = ({}) => {
             name="email"
             className={`pi ${activeField === 'email' ? 'ring-2 ring-green-500' : ''}`}
             value={resumeData.email}
+            onChange={handleChange}
+            onFocus={() => setActiveField('email')}
+          />
+        </div>
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Address"
+            name="address"
+            className={`pi ${activeField === 'address' ? 'ring-2 ring-green-500' : ''}`}
+            value={resumeData.address}
+            onChange={handleChange}
+            onFocus={() => setActiveField('address')}
+          />
+        </div>
             onChange={handleChange}
             onFocus={() => setActiveField('email')}
           />
