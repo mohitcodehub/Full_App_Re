@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaMicrophone, FaMicrophoneSlash } from 'react-icons/fa';
 
-const SpeechToText = ({ onResult, targetField, isActive, onToggle }) => {
+const SpeechToText = ({ onResult, targetField, isActive, onToggle, sectionType, onSectionResult }) => {
   const [isListening, setIsListening] = useState(false);
   const [recognition, setRecognition] = useState(null);
 
@@ -20,7 +20,13 @@ const SpeechToText = ({ onResult, targetField, isActive, onToggle }) => {
 
       recognitionInstance.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
-        onResult(transcript, targetField);
+        
+        // If we have a section type and onSectionResult callback, use intelligent parsing
+        if (sectionType && onSectionResult) {
+          onSectionResult(transcript, sectionType);
+        } else {
+          onResult(transcript, targetField);
+        }
       };
 
       recognitionInstance.onend = () => {
@@ -63,8 +69,8 @@ const SpeechToText = ({ onResult, targetField, isActive, onToggle }) => {
             ? 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600'
             : 'bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600'
       }`}
-      title={isListening ? 'Stop Recording' : 'Start Voice Input'}
-      aria-label={isListening ? 'Stop Recording' : 'Start Voice Input'}
+      title={isListening ? 'Stop Recording' : sectionType ? `Start Voice Input for ${sectionType}` : 'Start Voice Input'}
+      aria-label={isListening ? 'Stop Recording' : sectionType ? `Start Voice Input for ${sectionType}` : 'Start Voice Input'}
     >
       {isListening ? <FaMicrophoneSlash /> : <FaMicrophone />}
     </button>

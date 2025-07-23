@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { ResumeContext } from "../../pages/builder";
 import SpeechToText from "./SpeechToText";
+import { parsePersonalInformation } from "../../utils/speechParser";
 
 const PersonalInformation = ({}) => {
   const { resumeData, setResumeData, handleProfilePicture, handleChange } =
@@ -11,6 +12,24 @@ const PersonalInformation = ({}) => {
   const handleSpeechResult = (transcript, fieldName) => {
     setResumeData({ ...resumeData, [fieldName]: transcript });
     setActiveField(null);
+  };
+
+  const handleSectionSpeechResult = (transcript, sectionType) => {
+    if (sectionType === 'Personal Information') {
+      const parsedData = parsePersonalInformation(transcript);
+      
+      // Update resume data with parsed information
+      const updatedData = { ...resumeData };
+      
+      if (parsedData.name) updatedData.name = parsedData.name;
+      if (parsedData.position) updatedData.position = parsedData.position;
+      if (parsedData.contactInformation) updatedData.contactInformation = parsedData.contactInformation;
+      if (parsedData.email) updatedData.email = parsedData.email;
+      if (parsedData.address) updatedData.address = parsedData.address;
+      
+      setResumeData(updatedData);
+      setActiveField(null);
+    }
   };
 
   const toggleSpeech = (fieldName, isActive) => {
@@ -26,6 +45,8 @@ const PersonalInformation = ({}) => {
           targetField={activeField}
           isActive={activeField !== null}
           onToggle={(isActive) => toggleSpeech(activeField, isActive)}
+          sectionType="Personal Information"
+          onSectionResult={handleSectionSpeechResult}
         />
       </div>
       <div className="grid-4">
